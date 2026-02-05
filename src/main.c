@@ -87,9 +87,9 @@ int main(void) {
             printf("Success!\n");
         }
 
-        writeTofile("gay.png", &chunk);
+        writeTofile("gay.jpg", &chunk);
 
-        Image image = LoadImageFromMemory(".png", (const unsigned char*) chunk.image_data, (int) chunk.size);
+        Image image = LoadImageFromMemory(".jpg", (const unsigned char*) chunk.image_data, (int) chunk.size);
         Texture2D texture = LoadTextureFromImage(image);
 
 
