@@ -94,6 +94,7 @@ int main(void) {
 
 
         // fit to height or fit to width
+        // if width or height is above the screen its going to size down
         const float factor = fminf((float) SCREEN_WIDTH / (float) texture.width, (float) SCREEN_HEIGHT / (float) texture.height);
 
         // scale the image to the factor
@@ -110,10 +111,12 @@ int main(void) {
 
             ClearBackground(RAYWHITE);
 
-            DrawTexturePro(texture, (Rectangle){0, 0, (float) texture.width, (float) texture.height},   // source
-               (Rectangle){drawX, drawY, drawW, drawH},   // destination
-               (Vector2){0,0},  // origin
-               0.0f, WHITE);
+
+            DrawTextureEx(texture,(Vector2){drawX, drawY}, 0 , factor, WHITE);
+            // DrawTexturePro(texture, (Rectangle){0, 0, (float) texture.width, (float) texture.height},   // source
+            //    (Rectangle){drawX, drawY, drawW, drawH},   // destination
+            //    (Vector2){0,0},  // origin
+            //    0.0f, WHITE);
 
             EndDrawing();
         }
