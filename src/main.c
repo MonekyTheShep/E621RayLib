@@ -8,7 +8,7 @@
 #define SCREEN_WIDTH (800)
 #define SCREEN_HEIGHT (450)
 
-#define WINDOW_TITLE "Window title"
+#define WINDOW_TITLE "E926 Imager Puller"
 
 typedef struct ImageData {
     unsigned char *image_data;
