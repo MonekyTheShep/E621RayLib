@@ -45,7 +45,7 @@ void writeTofile(const char *filename, ImageData *chunk) {
         return;
     }
 
-    fwrite(chunk->image_data, size, 1, fp);
+    fwrite(chunk->image_data, 1, size, fp);
 
 }
 
