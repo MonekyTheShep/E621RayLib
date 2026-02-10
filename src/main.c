@@ -101,7 +101,7 @@ int main(void) {
         const float drawW = (float) texture.width * factor;
         const float drawH = (float) texture.height * factor;
 
-        // center the image
+        // center the image based on factor
         const float drawX = ((float) GetScreenWidth() - drawW) / 2;
         const float drawY = ((float) GetScreenHeight() - drawH) / 2;
 
@@ -112,11 +112,11 @@ int main(void) {
             ClearBackground(RAYWHITE);
 
 
-            DrawTextureEx(texture,(Vector2){drawX, drawY}, 0 , factor, WHITE);
-            // DrawTexturePro(texture, (Rectangle){0, 0, (float) texture.width, (float) texture.height},   // source
-            //    (Rectangle){drawX, drawY, drawW, drawH},   // destination
-            //    (Vector2){0,0},  // origin
-            //    0.0f, WHITE);
+            // DrawTextureEx(texture,(Vector2){drawX, drawY}, 0 , factor, WHITE);
+            DrawTexturePro(texture, (Rectangle){0, 0, (float) texture.width, (float) texture.height},   // source
+               (Rectangle){drawX, drawY, drawW, drawH},   // destination
+               (Vector2){0,0},  // origin
+               0.0f, WHITE);
 
             EndDrawing();
         }

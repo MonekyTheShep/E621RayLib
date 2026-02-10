@@ -40,7 +40,14 @@ add_executable(${PROJECT_NAME})
 target_sources(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_INCLUDE})
 target_include_directories(${PROJECT_NAME} PRIVATE ${raygui_SOURCE_DIR}/src)
-target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
+
+
+target_link_libraries(${PROJECT_NAME}
+        PRIVATE
+        raylib
+        cjson
+        CURL::libcurl
+)
 
 target_compile_options(${PROJECT_NAME} PRIVATE
         -Wall
@@ -51,13 +58,6 @@ target_compile_options(${PROJECT_NAME} PRIVATE
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address")
-
-
-target_link_libraries(${PROJECT_NAME}
-        PRIVATE
-        cjson
-        CURL::libcurl
-)
 
 # Setting ASSETS_PATH
 target_compile_definitions(${PROJECT_NAME} PUBLIC ASSETS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/assets/") # Set the asset path macro to the absolute path on the dev machine
