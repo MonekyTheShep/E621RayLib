@@ -57,9 +57,10 @@ int main(void) {
     CURL *curl = curl_easy_init();
 
     if(curl) {
+        curl_easy_setopt(curl, CURLOPT_URL, "https://static1.e621.net/data/sample/df/cb/dfcb38b6c0cf45d5ad543ce96c5d8bc5.jpg");
+
         curl_easy_setopt(curl, CURLOPT_USERAGENT, "e926curl/1.0 (by Moneky on e926)");
 
-        curl_easy_setopt(curl, CURLOPT_URL, "https://static1.e621.net/data/sample/df/cb/dfcb38b6c0cf45d5ad543ce96c5d8bc5.jpg");
         /* send all data to this function  */
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, readImageByteChunk);
 
@@ -123,6 +124,7 @@ int main(void) {
 
 
         free(chunk.image_data);
+        UnloadImage(image);
         UnloadTexture(texture);
         CloseWindow();
 
