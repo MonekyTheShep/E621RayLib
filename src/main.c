@@ -75,10 +75,10 @@ int main(void) {
         if(result != CURLE_OK) {
             fprintf(stderr, "curl_easy_perform() failed: %s\n",
                     curl_easy_strerror(result));
-
-            curl_easy_cleanup(curl);
         }
 
+        curl_easy_cleanup(curl);
+    }
 
         InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
         SetTargetFPS(60);
@@ -129,5 +129,5 @@ int main(void) {
         CloseWindow();
 
         return 0;
-    }
+
 }
