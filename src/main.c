@@ -11,23 +11,23 @@
 #define WINDOW_TITLE "E926 Imager Puller"
 
 typedef struct ImageData {
-    unsigned char *image_data;
+    uint8_t *image_data;
     size_t size;
 } ImageData;
 
-static size_t readImageByteChunk(unsigned char *data, size_t size, size_t nmemb, void *clientp)
+static size_t readImageByteChunk(uint8_t *data, size_t size, size_t nmemb, void *clientp)
 {
     size_t total = nmemb * size;
     ImageData *mem = (ImageData *)clientp;
 
-    unsigned char *ptr = realloc(mem->image_data, mem->size + total);
+    uint8_t *ptr = realloc(mem->image_data, mem->size + total);
     if(!ptr)
         return 0;  /* out of memory */
 
     mem->image_data= ptr;
     memcpy(&(mem->image_data[mem->size]), data, total);
     // or
-    // memcpy(mem->response + mem->size, data, realsize);
+    // memcpy(mem->image_data + mem->size, data, total);
     mem->size += total;
 
     return total;
@@ -45,7 +45,7 @@ void writeTofile(const char *filename, ImageData *chunk) {
         return;
     }
 
-    fwrite(chunk->image_data, 1, size, fp);
+    fwrite(chunk->image_data, sizeof(uint8_t), size, fp);
 
 }
 
@@ -90,7 +90,7 @@ int main(void) {
 
         writeTofile("gay.jpg", &chunk);
 
-        Image image = LoadImageFromMemory(".jpg", (const unsigned char*) chunk.image_data, (int) chunk.size);
+        Image image = LoadImageFromMemory(".jpg", (const uint8_t*) chunk.image_data, (int) chunk.size);
         Texture2D texture = LoadTextureFromImage(image);
 
 
