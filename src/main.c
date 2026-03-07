@@ -10,7 +10,8 @@
 
 #define WINDOW_TITLE "E926 Imager Puller"
 
-typedef struct ImageData {
+typedef struct ImageData
+{
     uint8_t *image_data;
     size_t size;
 } ImageData;
@@ -33,7 +34,8 @@ static size_t readImageByteChunk(uint8_t *data, size_t size, size_t nmemb, void 
     return total;
 }
 
-void writeTofile(const char *filename, ImageData *chunk) {
+void writeTofile(const char *filename, ImageData *chunk)
+{
     FILE *fp;
 
     size_t size = chunk->size;
@@ -50,13 +52,15 @@ void writeTofile(const char *filename, ImageData *chunk) {
 }
 
 
-int main(void) {
+int main(void)
+{
     ImageData chunk = { 0 };
     CURLcode result;
     curl_global_init(CURL_GLOBAL_DEFAULT);
     CURL *curl = curl_easy_init();
 
-    if(curl) {
+    if(curl)
+    {
         curl_easy_setopt(curl, CURLOPT_URL, "https://static1.e621.net/data/sample/df/cb/dfcb38b6c0cf45d5ad543ce96c5d8bc5.jpg");
 
         curl_easy_setopt(curl, CURLOPT_USERAGENT, "e926curl/1.0 (by Moneky on e926)");
@@ -72,7 +76,8 @@ int main(void) {
         result = curl_easy_perform(curl);
 
         /* check for errors */
-        if(result != CURLE_OK) {
+        if(result != CURLE_OK)
+        {
             fprintf(stderr, "curl_easy_perform() failed: %s\n",
                     curl_easy_strerror(result));
         }
@@ -80,54 +85,54 @@ int main(void) {
         curl_easy_cleanup(curl);
     }
 
-        InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
-        SetTargetFPS(60);
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
+    SetTargetFPS(60);
 
 
-        if (result == CURLE_OK) {
-            printf("Success!\n");
-        }
+    if (result == CURLE_OK)
+    {
+        printf("Success!\n");
+    }
 
-        writeTofile("gay.jpg", &chunk);
+    writeTofile("gay.jpg", &chunk);
 
-        Image image = LoadImageFromMemory(".jpg", (const uint8_t*) chunk.image_data, (int) chunk.size);
-        Texture2D texture = LoadTextureFromImage(image);
-
-
-        // fit to height or fit to width
-        // if width or height is above the screen its going to size down
-        const float factor = fminf((float) SCREEN_WIDTH / (float) texture.width, (float) SCREEN_HEIGHT / (float) texture.height);
-
-        // scale the image to the factor
-        const float drawW = (float) texture.width * factor;
-        const float drawH = (float) texture.height * factor;
-
-        // center the image based on factor
-        const float drawX = ((float) GetScreenWidth() - drawW) / 2;
-        const float drawY = ((float) GetScreenHeight() - drawH) / 2;
-
-        while (!WindowShouldClose())
-        {
-            BeginDrawing();
-
-            ClearBackground(RAYWHITE);
+    Image image = LoadImageFromMemory(".jpg", (const uint8_t*) chunk.image_data, (int) chunk.size);
+    Texture2D texture = LoadTextureFromImage(image);
 
 
-            // DrawTextureEx(texture,(Vector2){drawX, drawY}, 0 , factor, WHITE);
-            DrawTexturePro(texture, (Rectangle){0, 0, (float) texture.width, (float) texture.height},   // source
-               (Rectangle){drawX, drawY, drawW, drawH},   // destination
-               (Vector2){0,0},  // origin
-               0.0f, WHITE);
+    // fit to height or fit to width
+    // if width or height is above the screen its going to size down
+    const float factor = fminf((float) SCREEN_WIDTH / (float) texture.width, (float) SCREEN_HEIGHT / (float) texture.height);
 
-            EndDrawing();
-        }
+    // scale the image to the factor
+    const float drawW = (float) texture.width * factor;
+    const float drawH = (float) texture.height * factor;
+
+    // center the image based on factor
+    const float drawX = ((float) GetScreenWidth() - drawW) / 2;
+    const float drawY = ((float) GetScreenHeight() - drawH) / 2;
+
+    while (!WindowShouldClose())
+    {
+        BeginDrawing();
+
+        ClearBackground(RAYWHITE);
 
 
-        free(chunk.image_data);
-        UnloadImage(image);
-        UnloadTexture(texture);
-        CloseWindow();
+        // DrawTextureEx(texture,(Vector2){drawX, drawY}, 0 , factor, WHITE);
+        DrawTexturePro(texture, (Rectangle){0, 0, (float) texture.width, (float) texture.height},   // source
+            (Rectangle){drawX, drawY, drawW, drawH},   // destination
+            (Vector2){0,0},  // origin
+            0.0f, WHITE);
 
-        return 0;
+        EndDrawing();
+    }
 
+
+    free(chunk.image_data);
+    UnloadImage(image);
+    UnloadTexture(texture);
+    CloseWindow();
+
+    return 0;
 }
