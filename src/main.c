@@ -48,7 +48,7 @@ void writeTofile(const char *filename, ImageData *chunk)
     }
 
     fwrite(chunk->image_data, sizeof(uint8_t), size, fp);
-
+    fclose(fp);
 }
 
 
